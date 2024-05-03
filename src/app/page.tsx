@@ -43,9 +43,7 @@ const Home = () => {
       <section>
         <div className="container">
           <div className="bg-gradient py-10 rounded-md">
-            <Suspense>
-              <ShowHeroSlider />
-            </Suspense>
+            <Suspense>{/* <ShowHeroSlider /> */}</Suspense>
           </div>
         </div>
       </section>
@@ -58,7 +56,7 @@ const Home = () => {
           </div>
           <Suspense fallback={<SkeletonCategory />}>
             {/* @ts-ignore */}
-            <ShowCollections />
+            {/* <ShowCollections /> */}
           </Suspense>
         </div>
       </section>
@@ -71,7 +69,7 @@ const Home = () => {
             <p className="md:h5">Explore Today's Featured Picks!</p>
           </div>
           <Suspense fallback={<SkeletonFeaturedProducts />}>
-            <ShowFeaturedProducts />
+            {/* <ShowFeaturedProducts /> */}
           </Suspense>
         </div>
       </section>

@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { schemaAuthBasic } from "./utils";
 
-export const googleSigninSchema = z
+export const GoogleSigninSchema = z
   .object({
     idToken: z.string(),
   })
@@ -15,4 +15,4 @@ export const credSigninSchema = z
   })
   .merge(schemaAuthBasic);
 export type TCredSigninSchema = z.infer<typeof credSigninSchema>;
-export type TGoogleSigninSchema = z.infer<typeof googleSigninSchema>;
+export type TGoogleSigninSchema = z.infer<typeof GoogleSigninSchema>;

@@ -4,6 +4,7 @@ import config from "@/config/config.json";
 import theme from "@/config/theme.json";
 import TwSizeIndicator from "@/helpers/TwSizeIndicator";
 import Footer from "@/partials/Footer";
+import GoogleAuthProvider from "@/partials/GoogleAuthProvider";
 import Header from "@/partials/Header";
 import Providers from "@/partials/Providers";
 import "@/styles/main.scss";
@@ -16,7 +17,7 @@ export default function RootLayout({
   // import google font css
   const pf = theme.fonts.font_family.primary;
   const sf = theme.fonts.font_family.secondary;
-
+  const googleClientId = process.env.GOOGLE_CLIENT_ID;
   return (
     <html suppressHydrationWarning={true} lang="en">
       <head>
@@ -59,12 +60,14 @@ export default function RootLayout({
       <body suppressHydrationWarning={true}>
         <TwSizeIndicator />
         <Providers>
-          <Header>
-            <OpenCart />
-            <Cart />
-          </Header>
-          <main>{children}</main>
-          <Footer />
+          <GoogleAuthProvider clientId={googleClientId!}>
+            <Header>
+              <OpenCart />
+              <Cart />
+            </Header>
+            <main>{children}</main>
+            <Footer />
+          </GoogleAuthProvider>
         </Providers>
       </body>
     </html>

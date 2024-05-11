@@ -1,56 +1,62 @@
 "use client";
 
 import { AuthProvidersEnum } from "@/enum";
-import { CustomerError } from "@/lib/shopify/types";
-import { GoogleLogin } from "@react-oauth/google";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { ChangeEvent, FormEvent, useState } from "react";
+import {
+  CredentialResponse,
+  GoogleCredentialResponse,
+  GoogleLogin,
+} from "@react-oauth/google";
 import { useFormState, useFormStatus } from "react-dom";
 import { BiLoaderAlt } from "react-icons/bi";
-import { signup } from "./signup-action";
+import { signup } from "./signup-form-action";
 
 export interface FormData {
   firstName?: string;
   email: string;
   password: string;
 }
-const initialSignupFormValues = {
-  email: "",
-  password: "",
-  password2: "",
-  idToken: "",
-  success: false,
-  provider: AuthProvidersEnum.credentials,
-  formName: "signup",
-};
+
 const SignUp = () => {
   const [state, action] = useFormState(signup, undefined);
 
+  async function handleGoogleAuthSubmit({ credential }: CredentialResponse) {
+    {
+      if (!credential) {
+        console.error("Could not find GoogleLogin credential");
+        return;
+      }
+      // setFieldValue("idToken", () => credential);
+      // setFieldValue("provider", () => AuthProvidersEnum.google);
+      // await handleSubmit();
+    }
+  }
+
   return (
-    <form action={action}>
+    <form action={action} className="flex flex-col gap-2">
       <div>
-        <label className="form-label">Name</label>
+        <label className="form-label">First Name</label>
         <input
           name="firstName"
           className="form-input"
           placeholder="Enter your name"
+          required={true}
           type="text"
         />
         {state?.errors?.firstName && <p>{state.errors.firstName}</p>}
       </div>
       <div>
-        <label className="form-label">Name</label>
+        <label className="form-label">Last Name</label>
         <input
           name="lastName"
           className="form-input"
           placeholder="Enter your last name"
+          required={true}
           type="text"
         />
         {state?.errors?.lastName && <p>{state.errors.lastName}</p>}
       </div>
       <div>
-        <label className="form-label">Name</label>
+        <label className="form-label">Username</label>
         <input
           name="username"
           className="form-input"
@@ -66,6 +72,8 @@ const SignUp = () => {
           name="email"
           className="form-input"
           placeholder="Type your email"
+          autoComplete="email"
+          required={true}
           type="email"
         />
         {state?.errors?.email && <p>{state.errors.email}</p>}
@@ -77,6 +85,8 @@ const SignUp = () => {
           name="password"
           className="form-input"
           placeholder="********"
+          autoComplete="new-password"
+          required={true}
           type="password"
         />
         {state?.errors?.password && (
@@ -96,6 +106,7 @@ const SignUp = () => {
           name="password2"
           className="form-input"
           placeholder="********"
+          required={true}
           type="password"
         />
         {state?.errors?.password2 && <p>{state.errors.password2}</p>}
@@ -103,23 +114,16 @@ const SignUp = () => {
 
       <SignUpBtn />
       <span className="text-center font-thin text-sm">
-        Or sign up with one of our providers:
+        Or use one of our providers:
       </span>
-      <div className="flex w-full py-2 items-center dark:bg-white bg-neutral-300 place-content-center gap-2 rounded-lg">
+      <div className="flex  py-2 items-center dark:bg-darkmode-light bg-neutral-300 place-content-center gap-2 rounded-lg">
         <GoogleLogin
-          onSuccess={async ({ credential }) => {
-            if (!credential) {
-              console.error("Could not find GoogleLogin credential");
-              return;
-            }
-            // setFieldValue("idToken", () => credential);
-            // setFieldValue("provider", () => AuthProvidersEnum.google);
-            // await handleSubmit();
-          }}
-          // locale={getLocaleWebPattern(locale ?? defaultLocale)}
+          onSuccess={handleGoogleAuthSubmit}
           size="large"
           ux_mode="popup"
           type="standard"
+          theme={"filled_black"}
+          logo_alignment="center"
           shape="circle"
           text={"signup_with"}
         />
@@ -135,7 +139,7 @@ function SignUpBtn() {
   return (
     <button
       type="submit"
-      className="btn btn-primary md:text-lg md:font-medium w-full mt-10"
+      className="btn btn-primary md:text-lg md:font-medium w-full md:w-[15vw] md:self-center mt-10"
       aria-disabled={pending}
     >
       {pending ? (

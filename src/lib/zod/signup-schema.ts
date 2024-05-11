@@ -46,5 +46,22 @@ export type FormState =
         password?: string[];
       };
       message?: string;
+      success: false;
+    }
+  | {
+      success: true;
+    }
+  | undefined;
+export type GoogleSignFormState =
+  | {
+      errors?: {
+        idToken?: string[];
+        provider?: string;
+      };
+      message?: string;
+      success: false;
+    }
+  | {
+      success: true;
     }
   | undefined;

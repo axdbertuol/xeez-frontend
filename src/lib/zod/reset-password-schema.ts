@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { schemaAuthBasic, strongPasswordRegex } from "./utils";
+import { strongPasswordRegex } from "./utils";
 
 export const resetPasswordSchema = z
   .object({

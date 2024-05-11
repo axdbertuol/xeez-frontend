@@ -342,3 +342,107 @@ export type ShopifyProductsOperation = {
     cursor?: string;
   };
 };
+
+export type UserProfile = {
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+  createdAt: string;
+  id: string;
+};
+export type ProfileMeEditReq = Omit<UserProfile, "id" | "createdAt">;
+export type ProfileMe = Omit<UserProfile, "id">;
+
+export type LoginResponse = Readonly<{
+  token: string;
+  refreshToken: string;
+  tokenExpires: number;
+  user: UserProfile;
+}>;
+
+export type CreateProduct = {
+  name: string;
+  description?: string;
+  price: number;
+  category?: string;
+  categoryId: number;
+  imageUrl?: string;
+  slug: string;
+};
+export type StatusSuccessful = {
+  success: true;
+  status?: string | number;
+  errors?: undefined;
+  error?: undefined;
+  serverErrors?: undefined;
+};
+
+export type StatusUnsuccessful = {
+  success: false;
+  status?: string | number;
+  errors?: Record<string, string[]>;
+  error?: string | Array<{ message: string }>;
+  serverErrors?: Record<string, string[]>;
+};
+
+export type StatusErrors = StatusSuccessful | StatusUnsuccessful;
+export type CreateProductResponse = (CreateProduct & StatusErrors) & {
+  id?: number;
+};
+
+export type EditProduct = Partial<CreateProduct> & { id: number; slug: string };
+export type EditProductResponse = EditProduct & StatusErrors;
+
+export type ForgotPass = {
+  email?: string;
+};
+export type ForgotPassResponse = ForgotPass & StatusErrors;
+
+export type ResetPass = {
+  password: string;
+  password2: string;
+  token: string;
+};
+export type ResetPassResponse = ResetPass & StatusErrors;
+
+export interface ImageData {
+  id: string;
+  title: string;
+  url_viewer: string;
+  url: string;
+  display_url: string;
+  width: string;
+  height: string;
+  size: string;
+  time: string;
+  expiration: string;
+  image: ImageDetails;
+  thumb: ImageDetails;
+  medium: ImageDetails;
+  delete_url: string;
+}
+
+export interface ImageDetails {
+  filename: string;
+  name: string;
+  mime: string;
+  extension: string;
+  url: string;
+}
+
+export interface ImgBBResponse {
+  data: ImageData;
+  success: boolean;
+  status: number;
+}
+
+export interface ErrorResponse {
+  code: number;
+  message: string;
+  internal_code: string;
+}
+
+export interface InternalErrorResponse {
+  error: ErrorResponse;
+}
